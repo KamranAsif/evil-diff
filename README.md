@@ -1,34 +1,59 @@
-[![Build Status](https://travis-ci.org/{{github-user-name}}/{{github-app-name}}.svg?branch=master)](https://travis-ci.org/{{github-user-name}}/{{github-app-name}}.svg?branch=master)
-[![Coverage Status](https://coveralls.io/repos/github/{{github-user-name}}/{{github-app-name}}/badge.svg?branch=master)](https://coveralls.io/github/{{github-user-name}}/{{github-app-name}}?branch=master)
+[![Build Status](https://travis-ci.org/kamranasif/evil-diff.svg?branch=master)](https://travis-ci.org/kamranasif/evil-diff.svg?branch=master)
+[![Coverage Status](https://coveralls.io/repos/github/kamranasif/evil-diff/badge.svg?branch=master)](https://coveralls.io/github/kamranasif/evil-diff?branch=master)
 [![MIT license](http://img.shields.io/badge/license-MIT-brightgreen.svg)](http://opensource.org/licenses/MIT)
 
-# Using this module in other modules
+# Evil Diff
 
-Here is a quick example of how this module can be used in other modules. The [TypeScript Module Resolution Logic](https://www.typescriptlang.org/docs/handbook/module-resolution.html) makes it quite easy. The file `src/index.ts` is a [barrel](https://basarat.gitbooks.io/typescript/content/docs/tips/barrel.html) that re-exports selected exports from other files. The _package.json_ file contains `main` attribute that points to the generated `lib/index.js` file and `typings` attribute that points to the generated `lib/index.d.ts` file.
+Immutable data can make things fast. The problem is trying to model your data as immutable is very challenging. You might have seen libraries like Immutable.js and seamless-immutable and feared switching. 
 
-> If you are planning to have code in multiple files (which is quite natural for a NodeJS module) that users can import, make sure you update `src/index.ts` file appropriately.
+EvilDiff comes to the rescue!
 
-Now assuming you have published this amazing module to _npm_ with the name `my-amazing-lib`, and installed it in the module in which you need it -
+It will compare two pieces of data, apply any changes it finds, and clone along the path. Unchanged data keep their old pointer and changed data gets new pointers along its path.
 
-- To use the `Greeter` class in a TypeScript file -
+## Getting started
 
-```ts
-import { Greeter } from "my-amazing-lib";
+Install evil-diff using npm or yarn.
 
-const greeter = new Greeter("World!");
-greeter.greet();
+```
+npm install evil-diff
 ```
 
-- To use the `Greeter` class in a JavaScript file -
+Then require it into any module.
 
-```js
-const Greeter = require('my-amazing-lib').Greeter;
+```
+import EvilDiff from 'evil-diff';
 
-const greeter = new Greeter('World!');
-greeter.greet();
+var objDiff = EvilDiff.diff(obj1, obj2);
 ```
 
-## Setting travis and coveralls badges
-1. Sign in to [travis](https://travis-ci.org/) and activate the build for your project.
-2. Sign in to [coveralls](https://coveralls.io/) and activate the build for your project.
-3. Replace {{github-user-name}}/{{github-app-name}} with your repo details like: "ospatil/generator-node-typescript".
+## Examples
+
+No changes between two objects returns original object:
+
+```
+const result1 = { 'John': {name: {first: 'John', last: 'Doe'}, zipCode: '86469'} };
+const result2 = { 'John': {name: {first: 'John', last: 'Doe'}, zipCode: '86469'} };
+
+assertFalse(result1 === result2); // not same object
+assertdeepEqual(result1, result2); // but same data
+
+const diffResult = EvilDiff.diff(result1, result2);
+assertTrue(diffResult === result1); //Data was unchanged, returns old pointer
+```
+
+Changes return new references, but preserve references for unchanged properties
+
+```
+const result1 = { 'John': {name: {first: 'John', last: 'Doe'}, zipCode: '86469'} };
+const result2 = { 'John': {name: {first: 'John', last: 'Doe'}, zipCode: '91752'} };
+
+assertFalse(result1 === result3); // not same object
+assertNotDeepEqual(result1, result3); // different data
+
+const diffResult = EvilDiff.diff(result1, result3);
+
+assertFalse(diffResult === result1 || diffResult === result3); //Data was changed, new object
+
+assertDeepEqual(diffResult, result3); // Data matches result3
+assertTrue(diffResult.John.name === result1.John.name); // Unchanged data keeps same reference
+``````

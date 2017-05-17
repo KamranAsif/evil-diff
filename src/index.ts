@@ -1,1 +1,5 @@
-export * from "./greeter";
+import * as EvilDiff from "./evil-diff";
+
+export {
+  EvilDiff,
+};
