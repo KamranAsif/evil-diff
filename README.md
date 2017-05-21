@@ -23,7 +23,7 @@ Then require it into any module.
 ```
 import EvilDiff from 'evil-diff';
 
-var objDiff = EvilDiff.diff(obj1, obj2);
+var objDiff = EvilDiff.revise(obj1, obj2);
 ```
 
 ## Examples
@@ -37,8 +37,8 @@ const result2 = { 'John': {name: {first: 'John', last: 'Doe'}, zipCode: '86469'}
 assertFalse(result1 === result2); // not same object
 assertdeepEqual(result1, result2); // but same data
 
-const diffResult = EvilDiff.diff(result1, result2);
-assertTrue(diffResult === result1); //Data was unchanged, returns old pointer
+const revisedResult = EvilDiff.revise(result1, result2);
+assertTrue(revisedResult === result1); //Data was unchanged, returns old pointer
 ```
 
 Changes return new references, but preserve references for unchanged properties
@@ -50,10 +50,10 @@ const result2 = { 'John': {name: {first: 'John', last: 'Doe'}, zipCode: '91752'}
 assertFalse(result1 === result3); // not same object
 assertNotDeepEqual(result1, result3); // different data
 
-const diffResult = EvilDiff.diff(result1, result3);
+const revisedResult = EvilDiff.revise(result1, result3);
 
-assertFalse(diffResult === result1 || diffResult === result3); //Data was changed, new object
+assertFalse(revisedResult === result1 || revisedResult === result3); //Data was changed, new object
 
-assertDeepEqual(diffResult, result3); // Data matches result3
-assertTrue(diffResult.John.name === result1.John.name); // Unchanged data keeps same reference
+assertDeepEqual(revisedResult, result3); // Data matches result3
+assertTrue(revisedResult.John.name === result1.John.name); // Unchanged data keeps same reference
 ``````
