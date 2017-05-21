@@ -1,7 +1,8 @@
+[![MIT license](http://img.shields.io/badge/license-MIT-brightgreen.svg)](http://opensource.org/licenses/MIT)
 [![Build Status](https://travis-ci.org/KamranAsif/evil-diff.svg?branch=master)](https://travis-ci.org/KamranAsif/evil-diff.svg?branch=master)
 [![Coverage Status](https://coveralls.io/repos/github/KamranAsif/evil-diff/badge.svg?branch=master)](https://coveralls.io/github/KamranAsif/evil-diff?branch=master)
-[![MIT license](http://img.shields.io/badge/license-MIT-brightgreen.svg)](http://opensource.org/licenses/MIT)
-
+[![npm version](https://badge.fury.io/js/fixed-data-table-2.svg)](https://www.npmjs.com/package/fixed-data-table-2)
+ 
 # Evil Diff
 
 Immutable data can make things fast. The problem is trying to model your data as immutable is very challenging. You might have seen libraries like Immutable.js and seamless-immutable and feared switching. 
