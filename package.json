@@ -24,11 +24,9 @@
     "watch:test": "npm run test -- --watch"
   },
   "dependencies": {
-    "core-js": "^2.4.1"
   },
   "devDependencies": {
     "@types/chai": "^3.0.0",
-    "@types/core-js": "^0.9.41",
     "@types/mocha": "^2.0.0",
     "@types/sinon": "^2.2.2",
     "chai": "^3.0.0",
