@@ -1,10 +1,10 @@
-import isObject from "./isObject";
-import shallowClone from "./shallowClone";
+import { isObject } from './isObject';
+import { shallowClone } from './shallowClone';
 
 /**
  * Recursively walks tree and clones paths that have changed
  */
-const walkTree = <T>(source: T, revision: T): T => {
+export const walkTree = <T>(source: T, revision: T): T => {
   // Return early for no op
   if (source === revision) {
     return source;
@@ -53,5 +53,3 @@ const walkTree = <T>(source: T, revision: T): T => {
 
   return source;
 };
-
-export default walkTree;
