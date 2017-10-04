@@ -1,4 +1,4 @@
-import revise from '../src/revise';
+import {revise} from '../src/revise';
 import { assert } from 'chai';
 
 describe('revise', () => {
