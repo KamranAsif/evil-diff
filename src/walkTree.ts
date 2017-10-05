@@ -27,8 +27,10 @@ export const walkTree = <T>(source: T, revision: T): T => {
   // TODO (asif) See if it'll be quicker walk arrays instead of getting its keys
   type keyType = keyof T;
   const sourceKeys = Object.keys(source) as keyType[];
-  // const revisionKeys = Object.keys(revision) as keyType[];
+  const revisionKeys = Object.keys(revision) as keyType[];
+
   let changed = false;
+  let deleted = 0;
 
   for (const key of sourceKeys) {
     const sourceValue = source[key];
@@ -48,7 +50,28 @@ export const walkTree = <T>(source: T, revision: T): T => {
       changed = true;
     }
 
+    if (newValue === undefined) {
+      deleted++;
+    }
+
     source[key] = newValue;
+  }
+
+  if (sourceKeys.length === revisionKeys.length - deleted) {
+    return source;
+  }
+
+  // TODO(asif): Remove isObject call when TS/pull/13288 is merged in
+  if (!changed && isObject(source)) {
+    source = shallowClone(source);
+    changed = true;
+  }
+
+  for (const key of revisionKeys) {
+    const sourceHasKey = key in source;
+    if (!sourceHasKey) {
+      source[key] = revision[key];
+    }
   }
 
   return source;

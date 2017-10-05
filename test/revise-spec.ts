@@ -44,6 +44,12 @@ describe('revise', () => {
       const newSource = revise(source, revision);
       assert.deepEqual(newSource, revision, 'Should have values from second obj');
     });
+    it('should take values from revision object', () => {
+      const source = {foo: 1};
+      const revision = {foo: 1, bar: 2};
+      const newSource = revise(source, revision);
+      assert.deepEqual(newSource, revision, 'Should have values from second obj');
+    });
   });
 
   describe('works with arrays', () => {
