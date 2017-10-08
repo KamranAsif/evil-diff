@@ -1,5 +1,5 @@
-import reviseFn from '../src/reviseFn';
-import { assert } from 'chai';
+import {reviseFn} from '../src/reviseFn';
+import {assert} from 'chai';
 
 describe('reviseFn', () => {
 

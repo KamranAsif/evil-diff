@@ -1,22 +1,21 @@
-import { toArray } from "lodash";
-import shallowArrayEqual from "./shallowArrayEqual";
+import {shallowArrayEqual} from './shallowArrayEqual';
 
-const retain = <T>(fn: () => T): (() => T) => {
-  let lastArgs: any[];
-  let output: T;
+export type callback<K, A, M> = (this: K, ...args: A[]) => M;
 
-  // TODO (asif) Use WeakMap to allow obj dealloc
-  return function(): T {
-    const newArgs = toArray(arguments);
-    const unchanged = shallowArrayEqual(lastArgs, newArgs);
+export const retainFn =
+  <K, A, M>(fn: callback<K, A, M>): ((...args: A[]) => M) => {
+    let lastArgs: A[];
+    let output: M;
 
-    if (!unchanged) {
-      output = fn.apply(this, newArgs);
-      lastArgs = toArray(newArgs);
-    }
+    // TODO(asif): Use WeakMap to allow obj dealloc.
+    return function (...newArgs: A[]): M {
+      const unchanged = shallowArrayEqual(lastArgs, newArgs);
 
-    return output;
+      if (!unchanged) {
+        output = fn.apply(this as K, newArgs) as M;
+        lastArgs = newArgs;
+      }
+
+      return output;
+    };
   };
-};
-
-export default retain;

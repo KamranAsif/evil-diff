@@ -1,5 +1,5 @@
-import revise from '../src/revise';
-import { assert } from 'chai';
+import {revise} from '../src/revise';
+import {assert} from 'chai';
 
 describe('revise', () => {
   describe('works with primitives', () => {

@@ -1,6 +1,6 @@
-import retainFn from '../src/retainFn';
-import { assert } from 'chai';
-import { spy } from 'sinon';
+import {retainFn} from '../src/retainFn';
+import {assert} from 'chai';
+import {spy} from 'sinon';
 
 describe('retainFn', () => {
   describe('should call function correctly', () => {

@@ -1,4 +1,3 @@
-
 import index = require("../src/index");
 import * as chai from "chai";
 
