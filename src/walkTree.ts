@@ -67,7 +67,7 @@ export const walkTree = <T>(source: T, revision: T): T => {
   }
 
   // Check if there are any new keys in revision object.
-  if (sourceKeys.length + deletedCount === revisionKeys.length) {
+  if (sourceKeys.length - deletedCount === revisionKeys.length) {
     return source;
   }
 
