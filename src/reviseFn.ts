@@ -1,4 +1,4 @@
-import { revise } from './revise';
+import {revise} from './revise';
 
 export type callback<K, A, M> = (this: K, ...args: A[]) => M;
 

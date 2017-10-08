@@ -1,5 +1,5 @@
-import { isObject } from './isObject';
-import { shallowClone } from './shallowClone';
+import {isObject} from './isObject';
+import {shallowClone} from './shallowClone';
 
 /**
  * Recursively walks tree and clones paths that have changed

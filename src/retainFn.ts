@@ -1,4 +1,4 @@
-import { shallowArrayEqual } from './shallowArrayEqual';
+import {shallowArrayEqual} from './shallowArrayEqual';
 
 export type callback<K, A, M> = (this: K, ...args: A[]) => M;
 
