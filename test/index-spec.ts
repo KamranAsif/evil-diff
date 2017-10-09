@@ -10,6 +10,9 @@ describe("index", () => {
   it("should provide reviseFn", () => {
     expect(index.reviseFn).to.not.be.undefined;
   });
+  it("should provide reviseReducer", () => {
+    expect(index.reviseReducer).to.not.be.undefined;
+  });
   it("should provide retainFn", () => {
     expect(index.retainFn).to.not.be.undefined;
   });
