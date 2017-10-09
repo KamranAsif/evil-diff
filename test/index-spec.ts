@@ -1,16 +1,14 @@
-import index = require("../src/index");
-import * as chai from "chai";
+import index = require('../src/index');
+import {assert} from 'chai';
 
-const expect = chai.expect;
-
-describe("index", () => {
-  it("should provide revise", () => {
-    expect(index.revise).to.not.be.undefined;
+describe('index', () => {
+  it('should provide revise', () => {
+    assert.isDefined(index.revise);
   });
-  it("should provide reviseFn", () => {
-    expect(index.reviseFn).to.not.be.undefined;
+  it('should provide reviseFn', () => {
+    assert.isDefined(index.reviseFn);
   });
-  it("should provide retainFn", () => {
-    expect(index.retainFn).to.not.be.undefined;
+  it('should provide retainFn', () => {
+    assert.isDefined(index.retainFn);
   });
 });

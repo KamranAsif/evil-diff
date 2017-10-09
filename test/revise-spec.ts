@@ -1,5 +1,6 @@
-import {revise} from '../src/revise';
 import {assert} from 'chai';
+
+import {revise} from '../src/revise';
 
 describe('revise', () => {
   describe('works with primitives', () => {
@@ -42,7 +43,8 @@ describe('revise', () => {
       const source = {foo: 1};
       const revision = {foo: 2};
       const newSource = revise(source, revision);
-      assert.deepEqual(newSource, revision, 'Should have values from second obj');
+      assert.deepEqual(
+          newSource, revision, 'Should have values from second obj');
     });
   });
 
@@ -63,20 +65,27 @@ describe('revise', () => {
       const source = [1, 2, 3];
       const revision = [3, 2, 1];
       const newSource = revise(source, revision);
-      assert.deepEqual(newSource, revision, 'Should have values from second obj');
+      assert.deepEqual(
+          newSource, revision, 'Should have values from second obj');
     });
   });
 
   describe('works with functions', () => {
     it('should return unchaged function if no change', () => {
-      const source = () => {};
+      const source = () => {
+        return;
+      };
       const revision = source;
       const newSource = revise(source, revision);
       assert.strictEqual(newSource, source, 'Should return original function');
     });
     it('should return new function if changed', () => {
-      const source = (a: string) => {};
-      const revision = (b: string) => {};
+      const source = (a: string) => {
+        return;
+      };
+      const revision = (b: string) => {
+        return;
+      };
       const newSource = revise(source, revision);
       assert.strictEqual(newSource, revision, 'Should return new function');
     });
@@ -85,7 +94,7 @@ describe('revise', () => {
   describe('works with mixed types', () => {
     it('Shouldn\'t merge array and object', () => {
       const arr: any = ['a', 'b', 'c'];
-      const obj: any = { 0: 'a', 1: 'b', 2: 'c' };
+      const obj: any = {0: 'a', 1: 'b', 2: 'c'};
       const objRevision = revise(arr, obj);
       const arrRevision = revise(obj, arr);
       assert.strictEqual(objRevision, obj, 'Should return obj');
@@ -98,15 +107,18 @@ describe('revise', () => {
     const revision1 = {foo: {bar: 2}, baz: [1, 2, 3]};
     const revision2 = {foo: {bar: 1}, baz: [3, 2, 1]};
 
-    //debugger;
     const diff2Obj = revise(source, revision1);
     const diff3Obj = revise(source, revision2);
 
-    assert.strictEqual(diff2Obj.baz, source.baz, 'Should keep object path unmodified path');
-    assert.notStrictEqual(diff2Obj.foo, source.foo, 'Should return new path for changed value');
+    assert.strictEqual(
+        diff2Obj.baz, source.baz, 'Should keep object path unmodified path');
+    assert.notStrictEqual(
+        diff2Obj.foo, source.foo, 'Should return new path for changed value');
 
-    assert.strictEqual(diff3Obj.foo, source.foo, 'Should keep array path unmodified path');
-    assert.notStrictEqual(diff3Obj.baz, source.baz, 'Should return new path for changed value');
+    assert.strictEqual(
+        diff3Obj.foo, source.foo, 'Should keep array path unmodified path');
+    assert.notStrictEqual(
+        diff3Obj.baz, source.baz, 'Should return new path for changed value');
   });
- 
+
 });

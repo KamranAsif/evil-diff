@@ -3,8 +3,9 @@ cache: yarn
 node_js:
   - '6'
 script:
-  - yarn run build  # build
+  - yarn run pretest
   - yarn run benchmark # run benchmarks
   - yarn run coverage  # run mocha unit tests with coverage
 after_script:
+  - yarn run posttest
   - 'cat coverage/lcov.info | ./node_modules/.bin/coveralls' # sends the coverage report to coveralls

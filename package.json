@@ -5,9 +5,7 @@
   "license": "MIT",
   "repository": "",
   "author": "",
-  "keywords": [
-    ""
-  ],
+  "keywords": [],
   "files": [
     "lib"
   ],
@@ -15,17 +13,21 @@
   "typings": "lib/index.d.ts",
   "scripts": {
     "benchmark": "ts-node test/*-benchmark.ts --no-cache",
-    "build": "npm run clean && npm run lint && echo Using TypeScript && tsc --version && tsc --pretty",
-    "clean": "rimraf lib",
+    "check": "gts check",
+    "clean": "gts clean",
+    "compile": "tsc -p .",
     "coverage": "nyc --include='src/**/*.ts' --reporter=text --reporter=html --reporter=lcov mocha --compilers ts:ts-node/register --recursive 'test/**/*-spec.ts'",
+    "fix": "gts fix",
     "lint": "tslint --type-check --force --fix --project tsconfig.json --format verbose \"src/**/*.ts\"",
-    "test": "npm run build && mocha --compilers ts:ts-node/register --recursive 'test/**/*-spec.ts' 'src/**/*.ts'",
+    "posttest": "yarn run check",
+    "prepare": "yarn run compile",
+    "pretest": "yarn run compile",
+    "test": "yarn run pretest && mocha --compilers ts:ts-node/register --recursive 'test/**/*-spec.ts' 'src/**/*.ts' && yarn run posttest",
     "version": "tsc --version",
-    "watch": "npm run build -- --watch",
-    "watch:test": "npm run test -- --watch"
+    "watch": "yarn run compile -- --watch",
+    "watch:test": "yarn run test -- --watch"
   },
-  "dependencies": {
-  },
+  "dependencies": {},
   "devDependencies": {
     "@types/benchmark": "^1.0.30",
     "@types/chai": "^3.0.0",
@@ -41,7 +43,8 @@
     "ts-node": "^3.3.0",
     "tslint": "^5.5.0",
     "tslint-eslint-rules": "^4.1.1",
-    "typescript": "^2.5.3"
+    "typescript": "^2.4.1",
+    "gts": "latest"
   },
   "engines": {
     "node": ">=4.0.0"
