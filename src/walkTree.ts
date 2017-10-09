@@ -10,16 +10,16 @@ export const walkTree = <T>(source: T, revision: T): T => {
     return source;
   }
 
+  // Return revision if its a non object type
+  if (!isObject(source) || !isObject(revision)) {
+    return revision;
+  }
+
   // Check if both objects are the same. This catches Arr/Obj merging
   const matchingType = source instanceof revision.constructor &&
                        revision instanceof source.constructor;
 
   if (!matchingType) {
-    return revision;
-  }
-
-  // Return revision if its a non object type
-  if (!isObject(source) || !isObject(revision)) {
     return revision;
   }
 
