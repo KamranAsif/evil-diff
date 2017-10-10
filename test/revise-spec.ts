@@ -20,8 +20,10 @@ describe('revise', () => {
       for (let i = 0; i < sources.length; i++) {
         const source = sources[i];
         const revision = revisions[i];
-        const newSource = revise(source, revision);
-        assert.strictEqual(newSource, revision, 'Should return new value');
+        const newRevision = revise(source, revision);
+        const newSource = revise(revision, source);
+        assert.strictEqual(newRevision, revision, 'Should return new value');
+        assert.strictEqual(newSource, source, 'Should return new value');
       }
     });
   });
