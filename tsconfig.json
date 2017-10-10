@@ -1,23 +1,20 @@
 {
+  "extends": "./node_modules/gts/tsconfig-google.json",
   "compilerOptions": {
-    "declaration": true,
-    "module": "commonjs",
-    "moduleResolution": "node",
-    "noImplicitAny": true,
-    "strictNullChecks": true,
+    "rootDir": ".",
     "outDir": "./lib",
-    "preserveConstEnums": true,
-    "removeComments": true,
     "target": "ES6",
     "typeRoots": [
       "./node_modules/@types"
     ]
   },
   "include": [
-    "src/**/*"
+    "src/*.ts",
+    "src/**/*.ts",
+    "test/*.ts",
+    "test/**/*.ts"
   ],
   "exclude": [
-    "node_modules",
-    "**/*-spec.ts"
+    "node_modules"
   ]
 }

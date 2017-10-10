@@ -1,25 +1,17 @@
-import * as Benchmark from 'benchmark'
-import EvilDiff = require("../src/index");
+import * as Benchmark from 'benchmark';
+import EvilDiff = require('../src/index');
 
-declare var global: any
+declare var global: any;
 
 global.generateSchema = () => ({
-  "title": "Person",
-  "type": "object",
-  "properties": {
-    "firstName": {
-      "type": "string"
-    },
-    "lastName": {
-      "type": "string"
-    },
-    "age": {
-      "description": "Age in years",
-      "type": "integer",
-      "minimum": 0
-    }
+  'title': 'Person',
+  'type': 'object',
+  'properties': {
+    'firstName': {'type': 'string'},
+    'lastName': {'type': 'string'},
+    'age': {'description': 'Age in years', 'type': 'integer', 'minimum': 0}
   },
-  "required": ["firstName", "lastName"]
+  'required': ['firstName', 'lastName']
 });
 
 const suite = new Benchmark.Suite;
@@ -103,8 +95,8 @@ suite.add('object property undefined', {
   }
 });
 
-suite.on('cycle', function (event: Benchmark.Event) {
+suite.on('cycle', function(event: Benchmark.Event) {
   console.log(String(event.target));
-})
+});
 
 suite.run();
