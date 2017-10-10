@@ -8,7 +8,7 @@ export const retainFn =
       let output: M;
 
       // TODO(asif): Use WeakMap to allow obj dealloc.
-      return function(...newArgs: A[]): M {
+      return function(this: K, ...newArgs: A[]): M {
         const unchanged = shallowArrayEqual(lastArgs, newArgs);
 
         if (!unchanged) {
