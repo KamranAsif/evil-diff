@@ -45,22 +45,22 @@ describe('revise', () => {
       const source = {foo: 1};
       const revision = {foo: 2};
       const newSource = revise(source, revision);
-      assert.deepEqual(newSource, revision,
-          'Should have values from second obj');
+      assert.deepEqual(
+          newSource, revision, 'Should have values from second obj');
     });
     it('takes new values from revision object', () => {
       const source = {foo: 1};
       const revision = {foo: 1, bar: 2};
       const newSource = revise(source, revision);
-      assert.deepEqual(newSource, revision,
-          'Should have new values from second obj');
+      assert.deepEqual(
+          newSource, revision, 'Should have new values from second obj');
     });
     it('removes deleted values from source object', () => {
       const source = {foo: 1, bar: 2};
       const revision = {foo: 1};
       const newSource = revise(source, revision);
-      assert.deepEqual(newSource, revision,
-          'Should have new values from second obj');
+      assert.deepEqual(
+          newSource, revision, 'Should have new values from second obj');
     });
   });
 
@@ -80,40 +80,45 @@ describe('revise', () => {
     it('takes values from revision array', () => {
       const source = [1, 2, 3];
       const revision = [3, 2, 1];
-      const newSource = revise(source, revision);      assert.deepEqual(newSource, revision,
-          'Should have values from second obj');
+      const newSource = revise(source, revision);
+      assert.deepEqual(
+          newSource, revision, 'Should have values from second obj');
     });
     it('takes new values from revision array', () => {
       const source = [1, 2, 3];
       const revision = [1, 2, 3, 4];
       const newSource = revise(source, revision);
-      assert.deepEqual(newSource, revision,
-          'Should have values from second obj');
+      assert.deepEqual(
+          newSource, revision, 'Should have values from second obj');
     });
     it('removes deleted values from source array', () => {
       const source = [1, 2, 3, 4];
       const revision = [1, 2, 3];
       const newSource = revise(source, revision);
-      assert.deepEqual(newSource, revision,
-          'Should have values from second obj');
+      assert.deepEqual(
+          newSource, revision, 'Should have values from second obj');
     });
   });
 
   describe('given functions', () => {
     it('returns unchaged function if no change', () => {
-      const source = () => {};
+      const source = () => {
+        return;
+      };
       const revision = source;
       const newSource = revise(source, revision);
-      assert.strictEqual(newSource, source,
-          'Should return original function');
+      assert.strictEqual(newSource, source, 'Should return original function');
     });
     it('returns new function if changed', () => {
-      const source = (a: string) => {};
-      const revision = (b: string) => {};
+      const source = (a: string) => {
+        return;
+      };
+      const revision = (b: string) => {
+        return;
+      };
 
       const newSource = revise(source, revision);
-      assert.strictEqual(newSource, revision,
-          'Should return new function');
+      assert.strictEqual(newSource, revision, 'Should return new function');
     });
   });
 
@@ -136,15 +141,73 @@ describe('revise', () => {
     const diff2Obj = revise(source, revision1);
     const diff3Obj = revise(source, revision2);
 
-    assert.strictEqual(diff2Obj.baz, source.baz,
-      'Should keep object path unmodified path');
-    assert.notStrictEqual(diff2Obj.foo, source.foo,
-      'Should return new path for changed value');
+    assert.strictEqual(
+        diff2Obj.baz, source.baz, 'Should keep object path unmodified path');
+    assert.notStrictEqual(
+        diff2Obj.foo, source.foo, 'Should return new path for changed value');
 
-    assert.strictEqual(diff3Obj.foo, source.foo,
-      'Should keep array path unmodified path');
-    assert.notStrictEqual(diff3Obj.baz, source.baz,
-      'Should return new path for changed value');
+    assert.strictEqual(
+        diff3Obj.foo, source.foo, 'Should keep array path unmodified path');
+    assert.notStrictEqual(
+        diff3Obj.baz, source.baz, 'Should return new path for changed value');
+  });
+
+  describe('when circular references are present', () => {
+    it('handles self pointing circular references', () => {
+      const source: any = {};
+      source.foo = source;
+      const revision: any = {};
+      revision.foo = revision;
+
+      const newSource = revise(source, revision);
+      assert.strictEqual(newSource.foo, revision);
+    });
+
+    it('handles reversed pointing circular references', () => {
+      const source: any = {};
+      const revision: any = {};
+      source.foo = revision;
+      revision.foo = source;
+
+      const newSource = revise(source, revision);
+      assert.strictEqual(newSource.foo, source);
+    });
+
+    it('handles circular references pointing to source object', () => {
+      const source: any = {};
+      const revision: any = {};
+      source.foo = source;
+      revision.foo = source;
+
+      const newSource = revise(source, revision);
+      assert.strictEqual(newSource.foo, source);
+    });
+
+    it('handles circular references pointing to revision object', () => {
+      const source: any = {};
+      const revision: any = {};
+      source.foo = revision;
+      revision.foo = revision;
+
+      const newSource = revise(source, revision);
+      assert.strictEqual(newSource.foo, revision);
+    });
+
+    it('handles circular references pointing to other object', () => {
+      const bar: any = {};
+      bar.foo = bar;
+
+      const baz: any = {};
+      baz.foo = baz;
+
+      const source: any = {};
+      const revision: any = {};
+      source.foo = bar;
+      revision.foo = baz;
+
+      const newSource = revise(source, revision);
+      assert.strictEqual(newSource.foo, baz);
+    });
   });
 
 });
