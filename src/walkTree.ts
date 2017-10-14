@@ -1,5 +1,5 @@
-import { isObject } from './isObject';
-import { shallowClone } from './shallowClone';
+import {isObject} from './isObject';
+import {shallowClone} from './shallowClone';
 
 /**
  * Recursively walks tree, copy values to revision object and cloning
@@ -19,7 +19,7 @@ export const walkTree = <T>(source: T, revision: T): T => {
 
   // Check if both objects are the same. This catches Arr/Obj merging.
   const matchingType = source instanceof revision.constructor &&
-                       revision instanceof source.constructor;
+      revision instanceof source.constructor;
 
   if (!matchingType) {
     return revision;

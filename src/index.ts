@@ -1,3 +1,3 @@
-export { revise } from './revise';
-export { reviseFn } from './reviseFn';
-export { retainFn } from './retainFn';
+export {retainFn} from './retainFn';
+export {revise} from './revise';
+export {reviseFn} from './reviseFn';

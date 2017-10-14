@@ -1,5 +1,6 @@
+import {assert} from 'chai';
+
 import {revise} from '../src/revise';
-import { assert } from 'chai';
 
 describe('revise', () => {
   describe('given primitives', () => {
@@ -79,8 +80,7 @@ describe('revise', () => {
     it('takes values from revision array', () => {
       const source = [1, 2, 3];
       const revision = [3, 2, 1];
-      const newSource = revise(source, revision);
-      assert.deepEqual(newSource, revision,
+      const newSource = revise(source, revision);      assert.deepEqual(newSource, revision,
           'Should have values from second obj');
     });
     it('takes new values from revision array', () => {
@@ -110,6 +110,7 @@ describe('revise', () => {
     it('returns new function if changed', () => {
       const source = (a: string) => {};
       const revision = (b: string) => {};
+
       const newSource = revise(source, revision);
       assert.strictEqual(newSource, revision,
           'Should return new function');
@@ -119,7 +120,7 @@ describe('revise', () => {
   describe('given mixed types', () => {
     it(`doesn't merge arrays and objects`, () => {
       const arr: any = ['a', 'b', 'c'];
-      const obj: any = { 0: 'a', 1: 'b', 2: 'c' };
+      const obj: any = {0: 'a', 1: 'b', 2: 'c'};
       const objRevision = revise(arr, obj);
       const arrRevision = revise(obj, arr);
       assert.strictEqual(objRevision, obj, 'Should return obj');
