@@ -1,70 +1,70 @@
 {
-  "name": "evil-diff",
-  "version": "0.1.1",
-  "description": "evil-diff",
-  "license": "MIT",
-  "repository": "",
-  "author": "",
-  "keywords": [],
-  "files": [
-    "lib"
-  ],
-  "main": "lib/index.js",
-  "typings": "lib/index.d.ts",
-  "scripts": {
-    "benchmark": "ts-node test/*-benchmark.ts --no-cache",
-    "check": "gts check",
-    "clean": "gts clean",
-    "compile": "tsc -p .",
-    "coverage": "nyc --include='src/**/*.ts' --reporter=text --reporter=html --reporter=lcov mocha --compilers ts:ts-node/register --recursive 'test/**/*-spec.ts'",
-    "fix": "gts fix",
-    "lint": "tslint --type-check --force --fix --project tsconfig.json --format verbose \"src/**/*.ts\"",
-    "posttest": "yarn run check",
-    "prepare": "yarn run compile",
-    "pretest": "yarn run compile",
-    "test": "yarn run pretest && mocha --compilers ts:ts-node/register --recursive 'test/**/*-spec.ts' 'src/**/*.ts' && yarn run posttest",
-    "version": "tsc --version",
-    "watch": "yarn run compile -- --watch",
-    "watch:test": "yarn run test -- --watch"
-  },
-  "dependencies": {},
-  "devDependencies": {
-    "@types/benchmark": "^1.0.30",
-    "@types/chai": "^3.0.0",
-    "@types/mocha": "^2.0.0",
-    "@types/node": "^8.0.33",
-    "@types/sinon": "^2.2.2",
-    "benchmark": "^2.1.4",
-    "chai": "^3.0.0",
-    "coveralls": "^2.0.0",
-    "gts": "latest",
-    "mocha": "^3.0.0",
-    "nyc": "^10.0.0",
-    "redux": "^3.7.2",
-    "rimraf": "^2.0.0",
-    "sinon": "^2.2.0",
-    "ts-node": "^3.3.0",
-    "tslint": "^5.5.0",
-    "tslint-eslint-rules": "^4.1.1",
-    "typescript": "^2.4.1"
-  },
-  "engines": {
-    "node": ">=4.0.0"
-  },
-  "nyc": {
-    "include": [
-      "src/**/*.ts"
+    "name": "evil-diff",
+    "version": "0.1.1",
+    "description": "evil-diff",
+    "license": "MIT",
+    "repository": "",
+    "author": "",
+    "keywords": [],
+    "files": [
+        "lib"
+    ],
+    "main": "lib/index.js",
+    "typings": "lib/index.d.ts",
+    "scripts": {
+        "benchmark": "ts-node test/*-benchmark.ts --no-cache",
+        "check": "gts check",
+        "clean": "gts clean",
+        "compile": "tsc -p .",
+        "coverage": "nyc --include='src/**/*.ts' --reporter=text --reporter=html --reporter=lcov mocha --compilers ts:ts-node/register --recursive 'test/**/*-spec.ts'",
+        "fix": "gts fix",
+        "lint": "tslint --type-check --force --fix --project tsconfig.json --format verbose \"src/**/*.ts\"",
+        "posttest": "yarn run check",
+        "prepare": "yarn run compile",
+        "pretest": "yarn run lint && yarn run check && yarn run compile",
+        "test": "yarn run pretest && mocha --compilers ts:ts-node/register --recursive 'test/**/*-spec.ts' 'src/**/*.ts' && yarn run posttest",
+        "version": "tsc --version",
+        "watch": "yarn run compile -- --watch",
+        "watch:test": "yarn run test -- --watch"
+    },
+    "dependencies": {},
+    "devDependencies": {
+        "@types/benchmark": "^1.0.30",
+        "@types/chai": "^3.0.0",
+        "@types/mocha": "^2.0.0",
+        "@types/node": "^8.0.33",
+        "@types/sinon": "^2.2.2",
+        "benchmark": "^2.1.4",
+        "chai": "^3.0.0",
+        "coveralls": "^2.0.0",
+        "gts": "latest",
+        "mocha": "^3.0.0",
+        "nyc": "^10.0.0",
+        "redux": "^3.7.2",
+        "rimraf": "^2.0.0",
+        "sinon": "^2.2.0",
+        "ts-node": "^3.3.0",
+        "tslint": "^5.5.0",
+        "tslint-eslint-rules": "^4.1.1",
+        "typescript": "^2.4.1"
+    },
+    "engines": {
+        "node": ">=4.0.0"
+    },
+    "nyc": {
+        "include": [
+            "src/**/*.ts"
         ],
         "exclude": [
-          "lib"
+            "lib"
         ],
         "extension": [
-          ".ts"
+            ".ts"
         ],
         "require": [
-          "ts-node/register"
+            "ts-node/register"
         ],
         "reporter": [],
         "all": true
-  }
+    }
 }

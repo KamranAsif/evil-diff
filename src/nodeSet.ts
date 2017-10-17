@@ -1,28 +1,40 @@
-import {walkTree} from './walkTree';
-
 export const NODE_SYMBOL = Symbol();
 
 export const node1 = {
-  [NODE_SYMBOL]: null
+  [NODE_SYMBOL]: null,
 };
 
 export const node2 = {
-  [NODE_SYMBOL]: undefined
+  [NODE_SYMBOL]: undefined,
 };
 
 // TODO(asif): Get correct typings once TS/issue/1863 is resolved.
 export type Node = typeof node1|typeof node2;
 
+/**
+ * Replacement for WeakSet that checks if a node exists in a set.
+ * Optimized for memory usage and performance.
+ */
 export class NodeSet<T extends Node> {
-  add(node: T) {
-    node[NODE_SYMBOL] = null;
+  /** Symbol belonging to this NodeSet. */
+  private readonly nodeSymbol: symbol;
+
+  constructor() {
+    this.nodeSymbol = Symbol();
   }
 
-  has(node: T): boolean {
-    return NODE_SYMBOL in node;
+  /** Removes node to set. */
+  public add(node: T) {
+    node[this.nodeSymbol] = null;
   }
 
-  remove(node: T) {
-    delete node[NODE_SYMBOL];
+  /** Check if node in set. */
+  public has(node: T): boolean {
+    return this.nodeSymbol in node;
   }
-};
+
+  /** Removes node from set. */
+  public remove(node: T) {
+    delete node[this.nodeSymbol];
+  }
+}

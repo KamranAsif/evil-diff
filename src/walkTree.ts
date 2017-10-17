@@ -2,17 +2,17 @@ import {isObject} from './isObject';
 import {NodeSet} from './nodeSet';
 import {shallowClone} from './shallowClone';
 
-export type TreeWalkerOptions<T> = {
+export interface TreeWalkerOptions {
   // TODO(asif): See if we can get this type working.
-  nodeSet: NodeSet<{}>
-};
+  nodeSet: NodeSet<{}>;
+}
 
 /**
  * Recursively walks tree, copy values to revision object and cloning
  * paths that have cloned.
  */
 export const walkTree =
-    <T>(source: T, revision: T, options: TreeWalkerOptions<T>): T => {
+    <T>(source: T, revision: T, options: TreeWalkerOptions): T => {
       // Return early for no op.
       if (source === revision) {
         return source;

@@ -7,7 +7,7 @@ export const reviseFn =
       let source: M;
 
       return function(this: K, ...args: A[]) {
-        const revision = fn.apply(this as K, args) as M;
+        const revision = fn.apply(this, args) as M;
         source = revise(source, revision);
         return source;
       };

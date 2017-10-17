@@ -12,7 +12,7 @@ export const retainFn =
         const unchanged = shallowArrayEqual(lastArgs, newArgs);
 
         if (!unchanged) {
-          output = fn.apply(this as K, newArgs) as M;
+          output = fn.apply(this, newArgs) as M;
           lastArgs = newArgs;
         }
 

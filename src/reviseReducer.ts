@@ -4,7 +4,7 @@ import {revise} from './revise';
 
 /**
  * EvilDiff.revise wrapper for redux.
- * 
+ *
  * Usage:
  *   createStore(reviseReducer(rootReducer));
  */
