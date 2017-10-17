@@ -1,8 +1,10 @@
 import {isObject} from './isObject';
+import {NodeSet} from './nodeSet';
 import {shallowClone} from './shallowClone';
 
 export type TreeWalkerOptions<T> = {
-  nodeSet: WeakSet<{}>
+  // TODO(asif): See if we can get this type working.
+  nodeSet: NodeSet<{}>
 };
 
 /**
@@ -49,6 +51,7 @@ export const walkTree =
 
         if (isObject(sourceValue)) {
           if (nodeSet.has(sourceValue)) {
+            // sourceValue will be removed my callee from the set.
             return revisionValue;
           } else {
             nodeSet.add(sourceValue);
@@ -57,9 +60,12 @@ export const walkTree =
 
         // Recursive call. If newValue is deeply equal to sourceValue, then
         // we return sourceValue, allowing us to skip cloning.
-
         const newValue: (ValueType|undefined) =
             walkTree(sourceValue, revisionValue, options);
+
+        if (isObject(sourceValue)) {
+          nodeSet.remove(sourceValue);
+        }
 
         // If walkTree doesn't return new object, that means no change.
         if (newValue === sourceValue) {

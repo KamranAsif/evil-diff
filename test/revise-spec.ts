@@ -62,6 +62,15 @@ describe('revise', () => {
       assert.deepEqual(
           newSource, revision, 'Should have new values from second obj');
     });
+    it('handles repeated objects, deeply nested', () => {
+      const foo = {foo: 1};
+      const bar = {bar: 2};
+      const source = {foo, bar, foobar: [foo, bar]};
+      const revision = {foo, bar, foobar: [bar, foo]};
+      const newSource = revise(source, revision);
+      assert.deepEqual(
+          newSource, revision, 'Should have new values from second obj');
+    });
   });
 
   describe('given arrays', () => {
