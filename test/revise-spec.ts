@@ -62,6 +62,15 @@ describe('revise', () => {
       assert.deepEqual(
           newSource, revision, 'Should have new values from second obj');
     });
+    it('handles repeated objects, deeply nested', () => {
+      const foo = {foo: 1};
+      const bar = {bar: 2};
+      const source = {foo, bar, foobar: [foo, bar]};
+      const revision = {foo, bar, foobar: [bar, foo]};
+      const newSource = revise(source, revision);
+      assert.deepEqual(
+          newSource, revision, 'Should have new values from second obj');
+    });
   });
 
   describe('given arrays', () => {
@@ -150,5 +159,65 @@ describe('revise', () => {
         diff3Obj.foo, source.foo, 'Should keep array path unmodified path');
     assert.notStrictEqual(
         diff3Obj.baz, source.baz, 'Should return new path for changed value');
+  });
+
+  describe('when circular references are present', () => {
+    it('handles self pointing circular references', () => {
+      const source: any = {};
+      source.foo = source;
+      const revision: any = {};
+      revision.foo = revision;
+
+      const newSource = revise(source, revision);
+      assert.strictEqual(newSource.foo, revision);
+    });
+
+    it('handles reversed pointing circular references', () => {
+      const source: any = {};
+      const revision: any = {};
+      source.foo = revision;
+      revision.foo = source;
+
+      const newSource = revise(source, revision);
+
+      // Strange case, it ends up being source..
+      assert.strictEqual(newSource.foo, revision);
+    });
+
+    it('handles circular references pointing to source object', () => {
+      const source: any = {};
+      const revision: any = {};
+      source.foo = source;
+      revision.foo = source;
+
+      const newSource = revise(source, revision);
+      assert.strictEqual(newSource.foo, source);
+    });
+
+    it('handles circular references pointing to revision object', () => {
+      const source: any = {};
+      const revision: any = {};
+      source.foo = revision;
+      revision.foo = revision;
+
+      const newSource = revise(source, revision);
+      assert.strictEqual(newSource.foo, revision);
+    });
+
+    it('handles circular references pointing to other object', () => {
+      const bar: any = {};
+      bar.foo = bar;
+
+      const baz: any = {};
+      baz.foo = baz;
+
+      const source: any = {};
+      const revision: any = {};
+      source.foo = bar;
+      revision.foo = baz;
+
+      const newSource = revise(source, revision);
+      assert.strictEqual(newSource.foo, baz);
+    });
   });
 });
