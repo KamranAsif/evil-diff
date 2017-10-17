@@ -220,4 +220,66 @@ describe('revise', () => {
       assert.strictEqual(newSource.foo, baz);
     });
   });
+
+  describe('When walkFilter is passed in', () => {
+    describe('when paths are passed in to prefilter', () => {
+      let paths: string[];
+      beforeEach(() => {
+
+        paths = [];
+        const prefilter = (path: string[]) => {
+          paths.push(path.join('.'));
+          return false;
+        };
+
+        const source: any = {
+          changed: {prop: 1},
+          deleted: {prop: 2},
+        };
+        const revision: any = {
+          changed: {prop: 1},
+          new: {prop: 2},
+        };
+      });
+
+      it('should include changed paths', () => {
+        assert.include(paths, 'changed');
+        assert.include(paths, 'changed.prop');
+      });
+
+      it('should include new paths', () => {
+        assert.include(paths, 'new');
+        assert.notInclude(paths, 'mew.prop');
+      });
+
+      it('should include delete paths', () => {
+        assert.include(paths, 'deleted');
+        assert.notInclude(paths, 'deleted.prop');
+      });
+    });
+
+    it('when prefilter returns true', () => {
+      it('should ignore paths returned true', () => {
+        const prefilter = (paths: string[]) => includes(paths, 'prop2');
+        const source: any = {
+          changed: {
+            prop1: {foo: 1},
+            prop2: {bar: 2},
+          },
+        };
+        const revision: any = {
+          changed: {prop1: null, prop2: null},
+        };
+        const newSource = revise(source, revision, {prefilter});
+
+        assert.strictEqual(newSource.changed.prop1, source.changed.prop1);
+        assert.strictEqual(newSource.changed.prop2, null);
+      });
+    });
+
+  });
+
+  function includes<T>(array: T[], value: T): boolean {
+    return array.indexOf(value) >= 0;
+  }
 });

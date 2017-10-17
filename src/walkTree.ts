@@ -2,9 +2,12 @@ import {isObject} from './isObject';
 import {NodeSet} from './nodeSet';
 import {shallowClone} from './shallowClone';
 
+export type WalkFilter = (path: string[]) => boolean;
+
 export interface TreeWalkerOptions {
   // TODO(asif): See if we can get this type working.
   nodeSet: NodeSet<{}>;
+  prefilter?: WalkFilter;
 }
 
 /**
