@@ -40,6 +40,7 @@
     "gts": "latest",
     "mocha": "^3.0.0",
     "nyc": "^10.0.0",
+    "redux": "^3.7.2",
     "rimraf": "^2.0.0",
     "sinon": "^2.2.0",
     "ts-node": "^3.3.0",
@@ -53,17 +54,17 @@
   "nyc": {
     "include": [
       "src/**/*.ts"
-    ],
-    "exclude": [
-      "lib"
-    ],
-    "extension": [
-      ".ts"
-    ],
-    "require": [
-      "ts-node/register"
-    ],
-    "reporter": [],
-    "all": true
+        ],
+        "exclude": [
+          "lib"
+        ],
+        "extension": [
+          ".ts"
+        ],
+        "require": [
+          "ts-node/register"
+        ],
+        "reporter": [],
+        "all": true
   }
 }

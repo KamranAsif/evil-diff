@@ -8,7 +8,10 @@ describe('index', () => {
   it('should provide reviseFn', () => {
     assert.isDefined(index.reviseFn);
   });
-  it('should provide retainFn', () => {
+  it("should provide retainFn", () => {
     assert.isDefined(index.retainFn);
+  });
+  it("should provide reviseReducer", () => {
+    assert.isDefined(index.reviseReducer);
   });
 });
