@@ -22,10 +22,10 @@
         "posttest": "yarn run check",
         "prepare": "yarn run compile",
         "pretest": "yarn run lint && yarn run check && yarn run compile",
-        "test": "yarn run pretest && mocha --compilers ts:ts-node/register --recursive 'test/**/*-spec.ts' 'src/**/*.ts' && yarn run posttest",
+        "test": "mocha --compilers ts:ts-node/register --recursive 'test/**/*-spec.ts' 'src/**/*.ts'",
         "version": "tsc --version",
-        "watch": "yarn run compile -- --watch",
-        "watch:test": "yarn run test -- --watch"
+        "watch": "yarn run compile --watch",
+        "watch:test": "yarn run test --watch"
     },
     "dependencies": {},
     "devDependencies": {
