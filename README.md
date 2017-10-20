@@ -1,7 +1,7 @@
 [![MIT license](http://img.shields.io/badge/license-MIT-brightgreen.svg)](http://opensource.org/licenses/MIT)
 [![Build Status](https://travis-ci.org/KamranAsif/evil-diff.svg?branch=master)](https://travis-ci.org/KamranAsif/evil-diff.svg?branch=master)
 [![Coverage Status](https://coveralls.io/repos/github/KamranAsif/evil-diff/badge.svg?branch=master)](https://coveralls.io/github/KamranAsif/evil-diff?branch=master)
-[![npm version](https://badge.fury.io/js/fixed-data-table-2.svg)](https://www.npmjs.com/package/fixed-data-table-2)
+[![npm version](https://badge.fury.io/js/evil-diff.svg)](https://www.npmjs.com/package/evil-diff)
  
 # Evil Diff
 
