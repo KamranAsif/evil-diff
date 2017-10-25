@@ -1,10 +1,17 @@
 import {NodeSet} from './nodeSet';
-import {walkTree} from './walkTree';
+import {WalkFilter, walkTree} from './walkTree';
 
-export const revise = <T>(source: T, revision: T): T => {
-  // TODO(asif): See if we can get this type working.
-  const nodeSet: NodeSet<{}> = new NodeSet<{}>();
-  return walkTree(source, revision, {
-    nodeSet,
-  });
-};
+export interface ReviseOptions<T> { prefilter?: WalkFilter<T>; }
+
+export const revise =
+    <T>(source: T, revision: T, reviseOptions: ReviseOptions<T> = {}): T => {
+      const {prefilter} = reviseOptions;
+
+      // TODO(asif): See if we can get this type working.
+      const nodeSet: NodeSet<{}> = new NodeSet<{}>();
+      return walkTree(source, revision, {
+        path: [],
+        nodeSet,
+        prefilter,
+      });
+    };

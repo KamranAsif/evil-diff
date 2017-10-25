@@ -25,4 +25,4 @@ export class NodeSet<T extends Node> {
   remove(node: T) {
     delete node[NODE_SYMBOL];
   }
-};
+}

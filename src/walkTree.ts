@@ -2,9 +2,36 @@ import {isObject} from './isObject';
 import {NodeSet} from './nodeSet';
 import {shallowClone} from './shallowClone';
 
+export type WalkFilter<T> = (path: string[], value: T, newValue: T) => boolean;
+
 export type TreeWalkerOptions<T> = {
   // TODO(asif): See if we can get this type working.
-  nodeSet: NodeSet<{}>
+  nodeSet: NodeSet<{}>; path: string[];
+  prefilter?: WalkFilter<T>;
+};
+
+/*
+ * We want to return a Symbol from crawl that lets us know we hit a circular
+ * dep. In order to work with typescript, we have to trick it in a few ways.
+ *
+ * First, we need to tell it that CIRCULAR_DEP_DETECTED is of type CrawlEscape.
+ * This is handled by casting to any to string.
+ *
+ * Second, we the caller function, walkTree, to identify the Symbol, without
+ * having newValue muddleded as T|CrawlEscape. But because we cast a symbol to
+ * string, we can't do newValue === 'CIRCULAR_DEP_DETECTED', which would allow
+ * typescript to infer that newValue wouldn't be CIRCULAR_DEP_DETECTED after
+ * that line. To get around that, we implement isCrawlEscape that does the
+ * symbol check for us.
+ */
+const CIRCULAR_DEP_DETECTED = Symbol();
+type CrawlEscape = 'CIRCULAR_DEP_DETECTED';
+
+/**
+ * Hack to transform CIRCULAR_DEP_DETECTED to CrawlEscape.
+ */
+const isCrawlEscape = (value: any): value is CrawlEscape => {
+  return value === CIRCULAR_DEP_DETECTED;
 };
 
 /**
@@ -13,6 +40,12 @@ export type TreeWalkerOptions<T> = {
  */
 export const walkTree =
     <T>(source: T, revision: T, options: TreeWalkerOptions<T>): T => {
+      const {
+        prefilter,
+        nodeSet,
+        path,
+      } = options;
+
       // Return early for no op.
       if (source === revision) {
         return source;
@@ -43,28 +76,24 @@ export const walkTree =
       let cloned = false;
       let deletedCount = 0;
 
-      const {nodeSet} = options;
-
       for (const key of sourceKeys) {
         const sourceValue: ValueType = source[key];
         const revisionValue = key in revision ? revision[key] : undefined;
 
-        if (isObject(sourceValue)) {
-          if (nodeSet.has(sourceValue)) {
-            // sourceValue will be removed my callee from the set.
-            return revisionValue;
-          } else {
-            nodeSet.add(sourceValue);
-          }
-        }
+        // Add key to the path before crawling.
+        path.push(key);
 
         // Recursive call. If newValue is deeply equal to sourceValue, then
         // we return sourceValue, allowing us to skip cloning.
-        const newValue: (ValueType|undefined) =
-            walkTree(sourceValue, revisionValue, options);
+        const newValue: (ValueType|CrawlEscape) =
+            crawl(sourceValue, revisionValue, options);
 
-        if (isObject(sourceValue)) {
-          nodeSet.remove(sourceValue);
+        // Remove key from path after crawling.
+        path.pop();
+
+        // Check to see if we hit a circular dependency.
+        if (isCrawlEscape(newValue)) {
+          return revisionValue;
         }
 
         // If walkTree doesn't return new object, that means no change.
@@ -117,3 +146,34 @@ export const walkTree =
 
       return source;
     };
+
+function crawl<T>(
+    source: T, revision: T, options: TreeWalkerOptions<T>): (T|CrawlEscape) {
+  const {
+    nodeSet,
+    path,
+    prefilter,
+  } = options;
+
+  // Crawl assumes path is up to date.
+  if (prefilter && prefilter(path, source, revision)) {
+    return source;
+  }
+
+  if (isObject(source)) {
+    if (nodeSet.has(source)) {
+      // Source will be removed by callee from the set.
+      return CIRCULAR_DEP_DETECTED as any as CrawlEscape;
+    } else {
+      nodeSet.add(source);
+    }
+  }
+
+  const newValue = walkTree(source, revision, options);
+
+  if (isObject(source)) {
+    nodeSet.remove(source);
+  }
+
+  return newValue;
+}
