@@ -240,6 +240,7 @@ describe('revise', () => {
           changed: {prop: 1},
           new: {prop: 2},
         };
+        revise(source, revision, {prefilter});
       });
 
       it('should include changed paths', () => {
