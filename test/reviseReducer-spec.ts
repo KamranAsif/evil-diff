@@ -1,6 +1,5 @@
 import {assert} from 'chai';
 import {Action, applyMiddleware, createStore, Reducer, Store} from 'redux';
-import {sandbox, SinonSandbox, SinonSpy} from 'sinon';
 
 import {reviseReducer} from '../src/reviseReducer';
 
