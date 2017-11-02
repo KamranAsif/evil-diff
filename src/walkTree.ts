@@ -164,13 +164,6 @@ export function walkTree<T>(
     return source;
   }
 
-  // There are new keys, so we should clone if we haven't done so already.
-  // TODO(asif): Remove isObject call when TS/pull/13288 is merged in.
-  if (!cloned && isObject(source)) {
-    source = shallowClone(source);
-    cloned = true;
-  }
-
   // TODO(asif): Optimize this best O(n) to worst O(n) by switching to a
   // set.
   for (const key of revisionKeys) {
@@ -181,10 +174,20 @@ export function walkTree<T>(
 
     if (!sourceHasKey) {
       path.push(key);
+
       if (prefilter && prefilter(path, source[key], revision[key])) {
         continue;
       }
+
       path.pop();
+
+      // There are new keys, so we should clone if we haven't done so already.
+      // TODO(asif): Remove isObject call when TS/pull/13288 is merged in.
+      if (!cloned && isObject(source)) {
+        source = shallowClone(source);
+        cloned = true;
+      }
+
       source[key] = revision[key];
     }
   }

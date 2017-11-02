@@ -259,7 +259,7 @@ describe('revise', () => {
       });
     });
 
-    it('when prefilter returns true', () => {
+    describe('when prefilter returns true', () => {
       it('should not recurse deeply', () => {
         const prefilter = (paths: string[]) => true;
         const source: any = {
@@ -292,7 +292,7 @@ describe('revise', () => {
 
 
       it('should ignore paths returned true', () => {
-        const prefilter = (paths: string[]) => includes(paths, 'prop2');
+        const prefilter = (paths: string[]) => includes(paths, 'prop1');
         const source: any = {
           changed: {
             prop1: {foo: 1},
