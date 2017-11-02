@@ -1,10 +1,10 @@
 import {NodeSet} from './nodeSet';
 import {WalkFilter, walkTree} from './walkTree';
 
-export interface ReviseOptions<T> { prefilter?: WalkFilter; }
+export interface ReviseOptions { prefilter?: WalkFilter; }
 
 export const revise =
-    <T>(source: T, revision: T, reviseOptions: ReviseOptions<T> = {}): T => {
+    <T>(source: T, revision: T, reviseOptions: ReviseOptions = {}): T => {
       const {prefilter} = reviseOptions;
 
       // TODO(asif): See if we can get this type working.

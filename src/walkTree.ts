@@ -5,7 +5,7 @@ import {shallowClone} from './shallowClone';
 // tslint:disable-next-line no-any Cannot type recursively.
 export type WalkFilter = (path: string[], value: any, newValue: any) => boolean;
 
-export interface TreeWalkerOptions<T> {
+export interface TreeWalkerOptions {
   // TODO(asif): See if we can get this type working.
   nodeSet: NodeSet<{}>;
   path: string[];
@@ -20,7 +20,7 @@ export interface TreeWalkerOptions<T> {
  * This is handled by casting to any to string.
  *
  * Second, we the caller function, walkTree, to identify the Symbol, without
- * having newValue muddleded as T|CrawlEscape. But because we cast a symbol to
+ * having newValue muddled ed as T|CrawlEscape. But because we cast a symbol to
  * string, we can't do newValue === 'CIRCULAR_DEP_DETECTED', which would allow
  * typescript to infer that newValue wouldn't be CIRCULAR_DEP_DETECTED after
  * that line. To get around that, we implement isCrawlEscape that does the
@@ -30,7 +30,7 @@ const CIRCULAR_DEP_DETECTED = Symbol();
 type CrawlEscape = 'CIRCULAR_DEP_DETECTED';
 
 const crawl = <T>(
-    source: T, revision: T, options: TreeWalkerOptions<T>): (T|CrawlEscape) => {
+    source: T, revision: T, options: TreeWalkerOptions): (T|CrawlEscape) => {
   const {
     nodeSet,
     path,
@@ -74,7 +74,7 @@ const isCrawlEscape = (value: any): value is CrawlEscape => {
  */
 // tslint:disable-next-line only-arrow-functions crawl needs hoisting.
 export function walkTree<T>(
-    source: T, revision: T, options: TreeWalkerOptions<T>): T {
+    source: T, revision: T, options: TreeWalkerOptions): T {
   const {
     path,
     prefilter,

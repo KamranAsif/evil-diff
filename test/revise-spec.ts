@@ -260,6 +260,37 @@ describe('revise', () => {
     });
 
     it('when prefilter returns true', () => {
+      it('should not recurse deeply', () => {
+        const prefilter = (paths: string[]) => true;
+        const source: any = {
+          changed: {
+            prop1: {foo: 1},
+            prop2: {bar: 2},
+          },
+        };
+        const revision: any = {
+          changed: {prop1: null, prop2: null},
+        };
+        const newSource = revise(source, revision, {prefilter});
+
+        assert.strictEqual(newSource, source);
+      });
+
+      it('should work with new values', () => {
+        const prefilter = (paths: string[]) => includes(paths, 'prop2');
+        const source: any = {
+          prop1: {foo: 1},
+        };
+        const revision: any = {
+          prop1: {foo: 1},
+          prop2: {bar: 2},
+        };
+        const newSource = revise(source, revision, {prefilter});
+
+        assert.strictEqual(newSource, source);
+      });
+
+
       it('should ignore paths returned true', () => {
         const prefilter = (paths: string[]) => includes(paths, 'prop2');
         const source: any = {
