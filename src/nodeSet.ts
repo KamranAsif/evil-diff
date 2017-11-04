@@ -21,7 +21,7 @@ export class NodeSet<T extends Node> {
     this.setSymbol = Symbol();
   }
 
-  /** Removes node to set. */
+  /** Adds node to set. */
   public add(node: T) {
     node[this.setSymbol] = true;
   }
