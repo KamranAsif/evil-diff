@@ -1,7 +1,6 @@
 import {reviseFn} from './reviseFn';
 
 // newValue: T, oldValue: undefined = new index
-// newValue: undefined, oldValue: T = deleted index
 // newValue: T, oldValue: T = changed index
 type Mapper<T, S> =
     (newValue: T|undefined, oldValue: T|undefined, index: number) => S;
