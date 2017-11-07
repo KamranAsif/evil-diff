@@ -1,5 +1,4 @@
 import {isObject} from './isObject';
-import {NodeSet} from './nodeSet';
 import {shallowClone} from './shallowClone';
 
 // tslint:disable-next-line no-any Cannot type recursively.
@@ -7,7 +6,7 @@ export type WalkFilter = (path: string[], value: any, newValue: any) => boolean;
 
 export interface TreeWalkerOptions {
   // TODO(asif): See if we can get this type working.
-  nodeSet: NodeSet<{}>;
+  nodeSet: Set<{}>;
   path: string[];
   prefilter?: WalkFilter;
 }
@@ -54,7 +53,7 @@ const crawl = <T>(
   const newValue = walkTree(source, revision, options);
 
   if (isObject(source)) {
-    nodeSet.remove(source);
+    nodeSet.delete(source);
   }
 
   return newValue;
