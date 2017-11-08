@@ -4,7 +4,7 @@ import {SinonSpy, spy} from 'sinon';
 
 import {revise} from '../../src/operators/revise';
 
-describe.only('revise operator', () => {
+describe('revise operator', () => {
   let next: Function;
   let subscriberSpy: SinonSpy;
 
