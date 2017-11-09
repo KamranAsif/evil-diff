@@ -1,4 +1,3 @@
-import {NodeSet} from './nodeSet';
 import {WalkFilter, walkTree} from './walkTree';
 
 export interface ReviseOptions { prefilter?: WalkFilter; }
@@ -8,7 +7,7 @@ export const revise =
       const {prefilter} = reviseOptions;
 
       // TODO(asif): See if we can get this type working.
-      const nodeSet: NodeSet<{}> = new NodeSet<{}>();
+      const nodeSet: Set<{}> = new Set<{}>();
       return walkTree(source, revision, {
         nodeSet,
         path: [],
