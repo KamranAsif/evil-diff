@@ -15,7 +15,7 @@
         "benchmark": "ts-node test/*-benchmark.ts --no-cache",
         "check": "gts check",
         "clean": "gts clean",
-        "compile": "tsc -p .",
+        "compile": "tsc -p . --project tsconfig.build.json",
         "coverage": "nyc --include='src/**/*.ts' --reporter=text --reporter=html --reporter=lcov mocha --compilers ts:ts-node/register --recursive 'test/**/*-spec.ts'",
         "fix": "gts fix",
         "lint": "tslint --type-check --force --fix --project tsconfig.json --format verbose \"src/**/*.ts\"",

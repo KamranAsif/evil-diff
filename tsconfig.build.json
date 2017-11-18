@@ -1,7 +1,7 @@
 {
     "extends": "./node_modules/gts/tsconfig-google.json",
     "compilerOptions": {
-        "rootDir": ".",
+        "rootDir": "./src",
         "outDir": "./lib",
         "target": "ES6",
         "skipLibCheck": true,
@@ -10,12 +10,10 @@
         ]
     },
     "include": [
-        "src/*.ts",
-        "src/**/*.ts",
-        "test/*.ts",
-        "test/**/*.ts"
+        "**/*.ts"
     ],
     "exclude": [
-        "node_modules"
+        "node_modules",
+        "test"
     ]
 }
