@@ -6,4 +6,4 @@
 
 ## BASICS
 
-  * [Revise](methods.md)
+  * [Revise](revise.md)
